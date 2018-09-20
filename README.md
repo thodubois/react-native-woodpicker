@@ -2,6 +2,16 @@
 
 Customisable picker and datePicker react-native components for Android and iOS.
 
+## Preview
+
+<img src="https://raw.githubusercontent.com/thodubois/react-native-woodpicker/master/assets/exampleApp.gif" alt='Preview' />
+
+## Installation
+
+```bash
+npm install react-native-woodpicker --save
+```
+
 ## Usage
 
 ### Picker
