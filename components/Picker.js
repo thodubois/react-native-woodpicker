@@ -39,7 +39,7 @@ const isIOS = Platform.OS === "ios";
 class Picker extends Component<Props, State> {
   static defaultProps = {
     isNullable: false,
-    androidPickerMode: "calendar",
+    androidPickerMode: "dialog",
     title: "",
     placeholder: ""
   };
