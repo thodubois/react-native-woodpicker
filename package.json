@@ -1,0 +1,12 @@
+{
+  "name": "react-native-woodpicker",
+  "version": "0.0.1",
+  "description": "React Native picker and date picker for iOS and Android",
+  "main": "index.js",
+  "author": "Fromwood",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thodubois/react-native-woodpicker"
+  }
+}
