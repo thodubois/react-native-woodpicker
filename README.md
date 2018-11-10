@@ -86,7 +86,7 @@ class ExampleApp extends Component {
     return (
       <View>
         <DatePicker
-          onValueChange={this.handleDatePicker}
+          onDateChange={this.handleDatePicker}
           value={this.state.pickedDate}
           title="Date Picker"
           placeholder={this.handlePlaceholder()}
