@@ -48,7 +48,7 @@ class ExampleApp extends Component {
           items={this.data}
           title="Data Picker"
           placeholder="Select Data"
-          value={this.state.pickedData}
+          item={this.state.pickedData}
           //androidPickerMode="dropdown"
           //isNullable
         />
