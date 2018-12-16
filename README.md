@@ -44,7 +44,7 @@ class ExampleApp extends Component {
     return (
       <View>
         <Picker
-          onValueChange={this.handlePicker}
+          onItemChange={this.handlePicker}
           items={this.data}
           title="Data Picker"
           placeholder="Select Data"
@@ -120,7 +120,7 @@ class ExampleApp extends Component {
 | Name                  | type                                        | Required | Description                                         |
 | --------------------- | ------------------------------------------- | -------- | --------------------------------------------------- |
 | **item**              | { label: string, value: any }               | true     | Configure the picker title (not the placeholder)    |
-| **onValueChange**     | (item: { label: string, value: any }) => {} | true     | Configure the placeholder when no value is selected |
+| **onItemChange**      | (item: { label: string, value: any }) => {} | true     | Configure the placeholder when no value is selected |
 | **items**             | Array<{ label: string, value: any }>        | true     | Configure the input style (View)                    |
 | **androidPickerMode** | "dialog" or "dropdown"                      | false    | Configure the input container style (View)          |
 
