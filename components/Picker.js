@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import {
   StyleSheet,
   Platform,
@@ -37,22 +37,25 @@ type State = {
 const isIOS = Platform.OS === "ios";
 
 class Picker extends Component<Props, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedItem: props.item
+        ? props.items.find(item => item === props.item)
+        : props.isNullable
+        ? { value: "", label: "" }
+        : props.items[0],
+      showPicker: false,
+      fadeAnim: new Animated.Value(0)
+    };
+  }
+
   static defaultProps = {
     isNullable: false,
     androidPickerMode: "dialog",
     title: "",
-    placeholder: ""
-  };
-
-  state = {
-    selectedItem:
-      this.props.item !== null
-        ? this.props.items.find(item => item === this.props.item)
-        : this.props.isNullable
-          ? { value: "", label: "" }
-          : this.props.items[0],
-    showPicker: false,
-    fadeAnim: new Animated.Value(0)
+    placeholder: "",
+    item: null
   };
 
   onItemChange = (value: any) => {
@@ -95,115 +98,176 @@ class Picker extends Component<Props, State> {
     });
   };
 
-  renderPickerItems() {
-    const items = this.props.isNullable
-      ? [{ value: "", label: "" }, ...this.props.items]
-      : this.props.items;
-    return items.map(item => {
+  renderPickerItems(isNullable, items) {
+    const tempItems = isNullable ? [{ value: "", label: "" }, ...items] : items;
+    return tempItems.map(item => {
       return (
         <RNPicker.Item label={item.label} value={item.value} key={item.label} />
       );
     });
   }
 
-  renderPlaceholder = (): string => {
-    if (this.props.item && this.props.item.label) {
-      return this.props.item.label;
-    } else {
-      if (!this.props.isNullable) {
-        return this.state.selectedItem.label;
-      }
+  renderPlaceholder(item, selectedItem, placeholder): string {
+    if (item && item.label) {
+      return item.label;
+    } else if (selectedItem.label) {
+      return selectedItem.label;
     }
-    return this.props.placeholder;
-  };
+    return placeholder;
+  }
 
-  renderDoneBar() {
+  renderDoneBar(title, doneText, onDonePress) {
     return (
       <View style={styles.doneBar}>
         <View style={styles.doneColumnStyle}>
-          <Text>{this.props.title}</Text>
+          <Text>{title}</Text>
         </View>
-        <TouchableWithoutFeedback onPress={this.onDonePress}>
+        <TouchableWithoutFeedback onPress={onDonePress}>
           <View style={styles.doneColumnStyle}>
-            <Text style={styles.doneTextStyle}>
-              {this.props.doneText || "Done"}
-            </Text>
+            <Text style={styles.doneTextStyle}>{doneText || "Done"}</Text>
           </View>
         </TouchableWithoutFeedback>
-      </View>
-    );
-  }
-
-  renderIOS = () => {
-    return (
-      <View style={this.props.containerStyle}>
-        <TouchableWithoutFeedback onPress={this.togglePicker}>
-          <View style={[styles.input, this.props.style]}>
-            <Text
-              style={[styles.placeholderStyle, this.props.placeholderStyle]}
-            >
-              {this.renderPlaceholder()}
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-        <Modal
-          visible={this.state.showPicker}
-          transparent
-          animationType="slide"
-          supportedOrientations={["portrait", "landscape"]}
-        >
-          <TouchableOpacity
-            style={styles.blurTouchable}
-            onPress={this.togglePicker}
-          >
-            <Animated.View
-              style={{
-                flex: 1,
-                backgroundColor: "#000000",
-                opacity: this.state.fadeAnim
-              }}
-            />
-          </TouchableOpacity>
-
-          {this.renderDoneBar()}
-          <View style={styles.iosPickerContainer}>
-            <RNPicker
-              onValueChange={this.onItemChange}
-              selectedValue={this.state.selectedItem.value}
-            >
-              {this.renderPickerItems()}
-            </RNPicker>
-          </View>
-        </Modal>
-      </View>
-    );
-  };
-
-  renderAndroid() {
-    return (
-      <View style={this.props.containerStyle}>
-        <View style={[styles.input, this.props.style]}>
-          <Text style={[styles.placeholderStyle, this.props.placeholderStyle]}>
-            {this.renderPlaceholder()}
-          </Text>
-        </View>
-        <View style={styles.androidPickerContainer}>
-          <RNPicker
-            prompt={this.props.title}
-            onValueChange={this.onItemChange}
-            selectedValue={this.state.selectedItem.value}
-            mode={this.props.androidPickerMode}
-            enabled={!this.props.disabled}
-          >
-            {this.renderPickerItems()}
-          </RNPicker>
-        </View>
       </View>
     );
   }
 
   render() {
-    return isIOS ? this.renderIOS() : this.renderAndroid();
+    const {
+      containerStyle,
+      style,
+      placeholderStyle,
+      androidPickerMode,
+      disabled,
+      title,
+      doneText,
+      item,
+      items,
+      placeholder,
+      isNullable
+    } = this.props;
+    const { selectedItem, showPicker, fadeAnim } = this.state;
+    return isIOS ? (
+      <IOSWoodPicker
+        containerStyle={containerStyle}
+        style={style}
+        placeholderStyle={placeholderStyle}
+        selectedItem={selectedItem}
+        showPicker={showPicker}
+        fadeAnim={fadeAnim}
+        renderPlaceholder={() =>
+          this.renderPlaceholder(item, selectedItem, placeholder)
+        }
+        renderDoneBar={() =>
+          this.renderDoneBar(title, doneText, this.onDonePress)
+        }
+        renderPickerItems={() => this.renderPickerItems(isNullable, items)}
+        onItemChange={this.onItemChange}
+        togglePicker={this.togglePicker}
+      />
+    ) : (
+      <AndroidWoodPicker
+        containerStyle={containerStyle}
+        style={style}
+        placeholderStyle={placeholderStyle}
+        androidPickerMode={androidPickerMode}
+        disabled={disabled}
+        selectedItem={selectedItem}
+        renderPlaceholder={this.renderPlaceholder}
+        onItemChange={this.onItemChange}
+        renderPickerItems={this.renderPickerItems}
+      />
+    );
+  }
+}
+
+class IOSWoodPicker extends PureComponent {
+  render() {
+    const {
+      containerStyle,
+      style,
+      placeholderStyle,
+      selectedItem,
+      showPicker,
+      renderPlaceholder,
+      renderDoneBar,
+      renderPickerItems,
+      onItemChange,
+      togglePicker,
+      fadeAnim
+    } = this.props;
+    return (
+      <View style={containerStyle}>
+        <TouchableWithoutFeedback onPress={togglePicker}>
+          <View style={[styles.input, style]}>
+            <Text style={[styles.placeholderStyle, placeholderStyle]}>
+              {renderPlaceholder()}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <Modal
+          visible={showPicker}
+          transparent
+          animationType="slide"
+          supportedOrientations={["portrait", "landscape"]}
+        >
+          <TouchableOpacity style={styles.blurTouchable} onPress={togglePicker}>
+            <Animated.View
+              style={{
+                flex: 1,
+                backgroundColor: "#000000",
+                opacity: fadeAnim
+              }}
+            />
+          </TouchableOpacity>
+
+          {renderDoneBar()}
+          <View style={styles.iosPickerContainer}>
+            <RNPicker
+              onValueChange={onItemChange}
+              selectedValue={selectedItem.value}
+            >
+              {renderPickerItems()}
+            </RNPicker>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
+}
+
+class AndroidWoodPicker extends PureComponent {
+  render() {
+    const {
+      containerStyle,
+      style,
+      placeholderStyle,
+      androidPickerMode,
+      disabled,
+      selectedItem,
+      renderPlaceholder,
+      renderPickerItems,
+      onItemChange
+    } = this.props;
+    return (
+      <View style={containerStyle}>
+        <View style={[styles.input, style]}>
+          <Text style={[styles.placeholderStyle, placeholderStyle]}>
+            {renderPlaceholder()}
+          </Text>
+        </View>
+        <View style={styles.androidPickerContainer}>
+          <RNPicker
+            prompt={title}
+            onValueChange={onItemChange}
+            selectedValue={selectedItem.value}
+            mode={androidPickerMode}
+            enabled={!disabled}
+          >
+            {renderPickerItems()}
+          </RNPicker>
+        </View>
+      </View>
+    );
   }
 }
 

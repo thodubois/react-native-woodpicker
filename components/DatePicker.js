@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import {
   StyleSheet,
   Platform,
@@ -40,6 +40,15 @@ type State = {
 const isIOS = Platform.OS === "ios";
 
 class DatePicker extends Component<Props, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showPicker: false,
+      fadeAnim: new Animated.Value(0),
+      pickedDate: props.date || new Date()
+    };
+  }
+
   static defaultProps = {
     isNullable: false,
     title: "",
@@ -47,12 +56,6 @@ class DatePicker extends Component<Props, State> {
     androidPickerMode: "calendar",
     iosPickerMode: "date",
     locale: "en"
-  };
-
-  state = {
-    showPicker: false,
-    fadeAnim: new Animated.Value(0),
-    pickedDate: this.props.date || new Date()
   };
 
   onDateChange = (date: Date) => {
@@ -114,36 +117,32 @@ class DatePicker extends Component<Props, State> {
     });
   };
 
-  renderDoneBar() {
+  renderDoneBar(title, doneText, onDonePress) {
     return (
       <View style={styles.doneBar}>
         <View style={styles.doneColumnStyle}>
-          <Text style={styles.placeholderStyle}>{this.props.title}</Text>
+          <Text style={styles.placeholderStyle}>{title}</Text>
         </View>
-        <TouchableWithoutFeedback onPress={this.onDonePress}>
+        <TouchableWithoutFeedback onPress={onDonePress}>
           <View style={styles.doneColumnStyle}>
-            <Text style={styles.doneTextStyle}>
-              {this.props.doneText || "Done"}
-            </Text>
+            <Text style={styles.doneTextStyle}>{doneText || "Done"}</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
     );
   }
 
-  renderInput = (onPressInput: () => any) => {
+  renderInput(onPressInput, style, placeholder, placeholderStyle, isNullable) {
     return (
-      <View style={[styles.input, this.props.style]}>
+      <View style={[styles.input, style]}>
         <TouchableWithoutFeedback onPress={onPressInput}>
           <View style={styles.placeHolderContainerStyle}>
-            <Text
-              style={[styles.placeholderStyle, this.props.placeholderStyle]}
-            >
-              {this.props.placeholder}
+            <Text style={[styles.placeholderStyle, placeholderStyle]}>
+              {placeholder}
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        {this.props.isNullable && (
+        {isNullable && (
           <TouchableWithoutFeedback onPress={this.resetSelectedValue}>
             <View style={styles.resetButtonContainerStyle}>
               <Text style={[styles.resetButtonStyle]}>{"\u292b"}</Text>
@@ -152,55 +151,112 @@ class DatePicker extends Component<Props, State> {
         )}
       </View>
     );
-  };
+  }
 
-  renderIOS() {
+  render() {
+    const {
+      containerStyle,
+      locale,
+      iosPickerMode,
+      placeholder,
+      placeholderStyle,
+      style,
+      isNullable,
+      title,
+      doneText
+    } = this.props;
+    const { showPicker, fadeAnim, pickedDate } = this.state;
+    return isIOS ? (
+      <IOSDateWoodPicker
+        containerStyle={containerStyle}
+        locale={locale}
+        iosPickerMode={iosPickerMode}
+        showPicker={showPicker}
+        fadeAnim={fadeAnim}
+        pickedDate={pickedDate}
+        togglePicker={this.togglePicker}
+        onDateChange={this.onDateChange}
+        renderInput={() =>
+          this.renderInput(
+            this.togglePicker,
+            style,
+            placeholder,
+            placeholderStyle,
+            isNullable
+          )
+        }
+        renderDoneBar={() =>
+          this.renderDoneBar(title, doneText, this.onDonePress)
+        }
+      />
+    ) : (
+      <AndroidDateWoodPicker
+        containerStyle={containerStyle}
+        renderInput={() =>
+          this.renderInput(
+            this.handleAndroidDatePicker,
+            placeholder,
+            placeholderStyle,
+            isNullable
+          )
+        }
+      />
+    );
+  }
+}
+
+class IOSDateWoodPicker extends PureComponent {
+  render() {
+    const {
+      containerStyle,
+      renderInput,
+      renderDoneBar,
+      showPicker,
+      togglePicker,
+      fadeAnim,
+      pickedDate,
+      onDateChange,
+      locale,
+      iosPickerMode
+    } = this.props;
     return (
-      <View style={this.props.containerStyle}>
-        {this.renderInput(this.togglePicker)}
+      <View style={containerStyle}>
+        {renderInput()}
         <Modal
-          visible={this.state.showPicker}
+          visible={showPicker}
           transparent
           animationType="slide"
           supportedOrientations={["portrait", "landscape"]}
         >
-          <TouchableOpacity
-            style={styles.blurTouchable}
-            onPress={this.togglePicker}
-          >
+          <TouchableOpacity style={styles.blurTouchable} onPress={togglePicker}>
             <Animated.View
               style={{
                 flex: 1,
                 backgroundColor: "#000000",
-                opacity: this.state.fadeAnim
+                opacity: fadeAnim
               }}
             />
           </TouchableOpacity>
-          {this.renderDoneBar()}
+          {renderDoneBar()}
           <View style={styles.iosPickerContainerStyle}>
             <DatePickerIOS
               mode="date"
-              date={this.state.pickedDate}
-              onDateChange={this.onDateChange}
-              locale={this.props.locale}
-              mode={this.props.iosPickerMode}
+              date={pickedDate}
+              onDateChange={onDateChange}
+              locale={locale}
+              mode={iosPickerMode}
             />
           </View>
         </Modal>
       </View>
     );
   }
+}
 
-  renderAndroid() {
-    return (
-      <View style={this.props.containerStyle}>
-        {this.renderInput(this.handleAndroidDatePicker)}
-      </View>
-    );
-  }
-
+class AndroidDateWoodPicker extends PureComponent {
   render() {
-    return isIOS ? this.renderIOS() : this.renderAndroid();
+    const { containerStyle, renderInput } = this.props;
+    return <View style={containerStyle}>{renderInput()}</View>;
   }
 }
 
