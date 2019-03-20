@@ -9,7 +9,7 @@
   "dependencies": {
     "react": "16.6.3",
     "react-native": "0.58.5",
-    "react-native-woodpicker": "^0.0.10"
+    "react-native-woodpicker": "^0.0.12"
   },
   "devDependencies": {
     "metro-react-native-babel-preset": "0.53.0",
