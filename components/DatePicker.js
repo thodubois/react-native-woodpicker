@@ -195,6 +195,7 @@ class DatePicker extends Component<Props, State> {
         renderInput={() =>
           this.renderInput(
             this.handleAndroidDatePicker,
+            style,
             placeholder,
             placeholderStyle,
             isNullable
