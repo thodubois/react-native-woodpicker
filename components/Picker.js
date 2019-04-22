@@ -110,7 +110,7 @@ class Picker extends Component<Props, State> {
   renderPlaceholder(item, selectedItem, placeholder): string {
     if (item && item.label) {
       return item.label;
-    } else if (selectedItem.label) {
+    } else if (selectedItem && selectedItem.label) {
       return selectedItem.label;
     }
     return placeholder;
@@ -168,13 +168,16 @@ class Picker extends Component<Props, State> {
       <AndroidWoodPicker
         containerStyle={containerStyle}
         style={style}
+        title={title}
         placeholderStyle={placeholderStyle}
         androidPickerMode={androidPickerMode}
         disabled={disabled}
         selectedItem={selectedItem}
-        renderPlaceholder={this.renderPlaceholder}
+        renderPlaceholder={() =>
+          this.renderPlaceholder(item, selectedItem, placeholder)
+        }
         onItemChange={this.onItemChange}
-        renderPickerItems={this.renderPickerItems}
+        renderPickerItems={() => this.renderPickerItems(isNullable, items)}
       />
     );
   }
@@ -240,6 +243,7 @@ class AndroidWoodPicker extends PureComponent {
     const {
       containerStyle,
       style,
+      title,
       placeholderStyle,
       androidPickerMode,
       disabled,
