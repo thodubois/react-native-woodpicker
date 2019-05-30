@@ -145,7 +145,7 @@ class DatePicker extends Component<Props, State> {
         {isNullable && (
           <TouchableWithoutFeedback onPress={this.resetSelectedValue}>
             <View style={styles.resetButtonContainerStyle}>
-              <Text style={[styles.resetButtonStyle]}>{"\u292b"}</Text>
+              <Text style={[styles.resetButtonStyle]}>{"\u2715"}</Text>
             </View>
           </TouchableWithoutFeedback>
         )}
@@ -295,8 +295,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   resetButtonStyle: Platform.select({
-    android: { fontSize: 30, top: -2 },
-    ios: { fontSize: 16, top: -2 }
+    android: { fontSize: 16, top: -1 },
+    ios: { fontSize: 20, top: -2 }
   }),
   resetButtonContainerStyle: {
     width: 20,
