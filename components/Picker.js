@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import type { StyleObj } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import ifIphoneX from "../helpers/ifIphoneX";
 
 type Props = {
   containerStyle?: StyleObj,
@@ -295,8 +296,8 @@ const styles = StyleSheet.create({
     borderTopColor: "#919498"
   },
   iosPickerContainer: {
-    height: 215,
-    justifyContent: "center",
+    height: ifIphoneX(255, 215),
+    justifyContent: "flex-start",
     backgroundColor: "white"
   },
   androidPickerContainer: {
