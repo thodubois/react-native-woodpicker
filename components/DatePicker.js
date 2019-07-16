@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback
 } from "react-native";
-import type { StyleObj } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import type, { StyleObj } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import ifIphoneX from "../helpers/ifIphoneX";
 
 type Props = {
@@ -162,6 +162,8 @@ class DatePicker extends Component<Props, State> {
       placeholder,
       placeholderStyle,
       style,
+      minDate,
+      maxDate,
       isNullable,
       title,
       doneText
@@ -174,6 +176,8 @@ class DatePicker extends Component<Props, State> {
         iosPickerMode={iosPickerMode}
         showPicker={showPicker}
         fadeAnim={fadeAnim}
+        maxDate={maxDate}
+        minDate={minDate}
         pickedDate={pickedDate}
         togglePicker={this.togglePicker}
         onDateChange={this.onDateChange}
@@ -216,6 +220,8 @@ class IOSDateWoodPicker extends PureComponent {
       showPicker,
       togglePicker,
       fadeAnim,
+      minDate,
+      maxDate,
       pickedDate,
       onDateChange,
       locale,
@@ -245,6 +251,8 @@ class IOSDateWoodPicker extends PureComponent {
               mode="date"
               date={pickedDate}
               onDateChange={onDateChange}
+              minimumDate={minDate}
+              maximumDate={maxDate}
               locale={locale}
               mode={iosPickerMode}
             />
