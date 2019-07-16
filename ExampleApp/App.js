@@ -64,6 +64,8 @@ export default class App extends Component<Props, State> {
           title="Date Picker"
           placeholder={this.handlePlaceholder()}
           isNullable
+          //minDate={new Date(Date.now())}
+          //maxDate={new Date(Date.now()+2000000000)}
           //iosPickerMode="date"
           //androidPickerMode="spinner"
           //locale="fr"
