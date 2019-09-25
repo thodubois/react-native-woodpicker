@@ -138,7 +138,10 @@ class DatePicker extends Component<Props, State> {
       <View style={[styles.input, style]}>
         <TouchableWithoutFeedback onPress={onPressInput}>
           <View style={styles.placeHolderContainerStyle}>
-            <Text style={[styles.placeholderStyle, placeholderStyle]}>
+            <Text
+              style={[styles.placeholderStyle, placeholderStyle]}
+              numberOfLines={1}
+              ellipsizeMode="tail">
               {placeholder}
             </Text>
           </View>
@@ -304,8 +307,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   resetButtonStyle: Platform.select({
-    android: { fontSize: 16, top: -1 },
-    ios: { fontSize: 20, top: -2 }
+    android: { fontSize: 18 },
+    ios: { fontSize: 20 }
   }),
   resetButtonContainerStyle: {
     width: 20,
