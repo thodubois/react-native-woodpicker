@@ -1,6 +1,6 @@
 {
   "name": "react-native-woodpicker",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "description": "React Native picker and date picker for iOS and Android",
   "main": "index.js",
   "author": "Fromwood",
