@@ -203,7 +203,10 @@ class IOSWoodPicker extends PureComponent {
       <View style={containerStyle}>
         <TouchableWithoutFeedback onPress={togglePicker}>
           <View style={[styles.input, style]}>
-            <Text style={[styles.placeholderStyle, placeholderStyle]}>
+            <Text
+              style={[styles.placeholderStyle, placeholderStyle]}
+              numberOfLines={1}
+              ellipsizeMode="tail">
               {renderPlaceholder()}
             </Text>
           </View>
@@ -256,7 +259,10 @@ class AndroidWoodPicker extends PureComponent {
     return (
       <View style={containerStyle}>
         <View style={[styles.input, style]}>
-          <Text style={[styles.placeholderStyle, placeholderStyle]}>
+          <Text
+            style={[styles.placeholderStyle, placeholderStyle]}
+            numberOfLines={1}
+            ellipsizeMode="tail">
             {renderPlaceholder()}
           </Text>
         </View>
