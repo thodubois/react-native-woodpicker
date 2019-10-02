@@ -12,13 +12,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback
 } from "react-native";
-import type, { StyleObj } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import { ViewStyle } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import ifIphoneX from "../helpers/ifIphoneX";
 
 type Props = {
-  containerStyle?: StyleObj,
-  placeholderStyle?: StyleObj,
-  style?: StyleObj,
+  containerStyle?: ViewStyle,
+  placeholderStyle?: ViewStyle,
+  style?: ViewStyle,
   onDateChange: (date: ?Date) => {},
   date: Date,
   disabled?: boolean,

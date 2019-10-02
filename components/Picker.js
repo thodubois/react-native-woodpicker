@@ -11,13 +11,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback
 } from "react-native";
-import type { StyleObj } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import { ViewStyle } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 import ifIphoneX from "../helpers/ifIphoneX";
 
 type Props = {
-  containerStyle?: StyleObj,
-  placeholderStyle?: StyleObj,
-  style?: StyleObj,
+  containerStyle?: ViewStyle,
+  placeholderStyle?: ViewStyle,
+  style?: ViewStyle,
   onItemChange: (value: { label: string, value: any }) => {},
   items: Array<{ label: string, value: any }>,
   androidPickerMode?: "dialog" | "dropdown",

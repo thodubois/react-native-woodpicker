@@ -10,7 +10,7 @@
   "dependencies": {
     "react": "16.8.6",
     "react-native": "0.60.0",
-    "react-native-woodpicker": "0.0.16"
+    "react-native-woodpicker": "0.0.17"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
