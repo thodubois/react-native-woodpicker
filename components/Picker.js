@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import type { StyleObj } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import ifIphoneX from "../helpers/ifIphoneX";
 
 type Props = {
   containerStyle?: StyleObj,
@@ -202,7 +203,10 @@ class IOSWoodPicker extends PureComponent {
       <View style={containerStyle}>
         <TouchableWithoutFeedback onPress={togglePicker}>
           <View style={[styles.input, style]}>
-            <Text style={[styles.placeholderStyle, placeholderStyle]}>
+            <Text
+              style={[styles.placeholderStyle, placeholderStyle]}
+              numberOfLines={1}
+              ellipsizeMode="tail">
               {renderPlaceholder()}
             </Text>
           </View>
@@ -255,7 +259,10 @@ class AndroidWoodPicker extends PureComponent {
     return (
       <View style={containerStyle}>
         <View style={[styles.input, style]}>
-          <Text style={[styles.placeholderStyle, placeholderStyle]}>
+          <Text
+            style={[styles.placeholderStyle, placeholderStyle]}
+            numberOfLines={1}
+            ellipsizeMode="tail">
             {renderPlaceholder()}
           </Text>
         </View>
@@ -295,8 +302,8 @@ const styles = StyleSheet.create({
     borderTopColor: "#919498"
   },
   iosPickerContainer: {
-    height: 215,
-    justifyContent: "center",
+    height: ifIphoneX(255, 215),
+    justifyContent: "flex-start",
     backgroundColor: "white"
   },
   androidPickerContainer: {

@@ -1,3 +1,4 @@
 ExampleApp
 .gitignore
 assets
+node_modules

@@ -12,7 +12,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback
 } from "react-native";
-import type { StyleObj } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import type, { StyleObj } from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import ifIphoneX from "../helpers/ifIphoneX";
 
 type Props = {
   containerStyle?: StyleObj,
@@ -145,7 +146,7 @@ class DatePicker extends Component<Props, State> {
         {isNullable && (
           <TouchableWithoutFeedback onPress={this.resetSelectedValue}>
             <View style={styles.resetButtonContainerStyle}>
-              <Text style={[styles.resetButtonStyle]}>{"\u292b"}</Text>
+              <Text style={[styles.resetButtonStyle]}>{"\u2715"}</Text>
             </View>
           </TouchableWithoutFeedback>
         )}
@@ -161,6 +162,8 @@ class DatePicker extends Component<Props, State> {
       placeholder,
       placeholderStyle,
       style,
+      minDate,
+      maxDate,
       isNullable,
       title,
       doneText
@@ -173,6 +176,8 @@ class DatePicker extends Component<Props, State> {
         iosPickerMode={iosPickerMode}
         showPicker={showPicker}
         fadeAnim={fadeAnim}
+        maxDate={maxDate}
+        minDate={minDate}
         pickedDate={pickedDate}
         togglePicker={this.togglePicker}
         onDateChange={this.onDateChange}
@@ -215,6 +220,8 @@ class IOSDateWoodPicker extends PureComponent {
       showPicker,
       togglePicker,
       fadeAnim,
+      minDate,
+      maxDate,
       pickedDate,
       onDateChange,
       locale,
@@ -244,6 +251,8 @@ class IOSDateWoodPicker extends PureComponent {
               mode="date"
               date={pickedDate}
               onDateChange={onDateChange}
+              minimumDate={minDate}
+              maximumDate={maxDate}
               locale={locale}
               mode={iosPickerMode}
             />
@@ -290,13 +299,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   iosPickerContainerStyle: {
-    height: 215,
-    justifyContent: "center",
+    height: ifIphoneX(255, 215),
+    justifyContent: "flex-start",
     backgroundColor: "white"
   },
   resetButtonStyle: Platform.select({
-    android: { fontSize: 30, top: -2 },
-    ios: { fontSize: 16, top: -2 }
+    android: { fontSize: 16, top: -1 },
+    ios: { fontSize: 20, top: -2 }
   }),
   resetButtonContainerStyle: {
     width: 20,
