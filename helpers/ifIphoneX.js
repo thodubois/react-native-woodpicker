@@ -1,8 +1,8 @@
-import isIphoneX from './isIphoneX'
+import isIphoneX from './isIphoneX';
 
 export default function ifIphoneX(iphoneXStyle, regularStyle) {
   if (isIphoneX()) {
-    return iphoneXStyle
+    return iphoneXStyle;
   }
-  return regularStyle
+  return regularStyle;
 }
