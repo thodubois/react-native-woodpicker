@@ -6,122 +6,95 @@
  * @flow
  */
 
-import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Button } from "react-native";
-import { Picker, DatePicker } from "react-native-woodpicker";
+import React, {useState} from 'react';
+import {Platform, StyleSheet, View, Text, Button} from 'react-native';
+import {DatePicker, Picker} from 'react-native-woodpicker';
 
-const instructions = Platform.select({
-  ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-  android:
-    "Double tap R on your keyboard to reload,\n" +
-    "Shake or press menu button for dev menu"
-});
+const data = [
+  {label: 'DataCat', value: 1},
+  {label: 'DataDog', value: 2},
+  {label: 'DataSnake', value: 3},
+  {label: 'DataPlatypus', value: 4},
+  {label: 'DataWhale', value: 5},
+];
 
-type Props = {};
+const App = () => {
+  const [pickedDate, setPickedDate] = useState(null);
+  const [pickedData, setPickedData] = useState(null);
 
-type State = {
-  pickedDate: Date,
-  pickedData: { label: string, value: number }
+  const instructions = Platform.select({
+    ios: 'Welcome to the iOS Example App for react-native-woodpicker. Enjoy!',
+    android:
+      'Welcome to the Android Example App for react-native-woodpicker. Enjoy!',
+  });
+
+  const handlePlaceholder = () =>
+    pickedDate ? pickedDate.toDateString() : 'No value Selected';
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.welcome}>Welcome to React Native!</Text>
+      <Text style={styles.instructions}>To get started, edit App.js</Text>
+      <Text style={styles.instructions}>{instructions}</Text>
+      <Picker
+        style={styles.pickerStyle}
+        onItemChange={setPickedData}
+        items={data}
+        title="Data Picker"
+        placeholder="Select Data"
+        item={pickedData}
+        isNullable
+        //androidPickerMode="dropdown"
+      />
+      <Button title="Set Value" onPress={() => setPickedData(data[1])} />
+      <DatePicker
+        style={styles.pickerStyle}
+        onDateChange={setPickedDate}
+        date={pickedDate}
+        title="Date Picker"
+        placeholder={handlePlaceholder()}
+        isNullable
+        //minDate={new Date(Date.now())}
+        //maxDate={new Date(Date.now()+2000000000)}
+        //iosPickerMode="date"
+        //androidPickerMode="spinner"
+        //locale="fr"
+      />
+      <Button title="Set Today" onPress={() => setPickedDate(new Date())} />
+    </View>
+  );
 };
-
-export default class App extends Component<Props, State> {
-  state = {
-    pickedDate: null,
-    pickedData: null
-  };
-
-  data = [
-    { label: "DataCat", value: 1 },
-    { label: "DataDog", value: 2 },
-    { label: "DataSnake", value: 3 },
-    { label: "DataPlatypus", value: 4 },
-    { label: "DataWhale", value: 5 }
-  ];
-
-  handlePicker = data => {
-    this.setState({ pickedData: data });
-  };
-
-  handleDatePicker = date => {
-    this.setState({ pickedDate: date });
-  };
-
-  handlePlaceholder = () =>
-    this.state.pickedDate
-      ? this.state.pickedDate.toDateString()
-      : "No value Selected";
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-        <DatePicker
-          style={styles.pickerStyle}
-          onDateChange={this.handleDatePicker}
-          date={this.state.pickedDate}
-          title="Date Picker"
-          placeholder={this.handlePlaceholder()}
-          isNullable
-          //minDate={new Date(Date.now())}
-          //maxDate={new Date(Date.now()+2000000000)}
-          //iosPickerMode="date"
-          //androidPickerMode="spinner"
-          //locale="fr"
-        />
-        <Button
-          title="Set Today"
-          onPress={() => this.handleDatePicker(new Date())}
-        />
-
-        <Picker
-          style={styles.pickerStyle}
-          onItemChange={this.handlePicker}
-          items={this.data}
-          title="Data Picker"
-          placeholder="Select Data"
-          item={this.state.pickedData}
-          isNullable
-          //androidPickerMode="dropdown"
-        />
-        <Button
-          title="Set Value"
-          onPress={() => this.handlePicker(this.data[1])}
-        />
-      </View>
-    );
-  }
-}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
-    textAlign: "center",
-    margin: 10
+    textAlign: 'center',
+    margin: 10,
   },
   instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
   },
   pickerStyle: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: "blue",
+    borderColor: 'blue',
     borderRadius: 5,
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 8,
     marginHorizontal: 8,
     marginVertical: 8,
     height: 40,
-    width: 200
-  }
+    width: 200,
+  },
 });
+
+export default App;

@@ -10,8 +10,27 @@ Customisable picker and datePicker react-native components for Android and iOS.
 ## Installation
 
 ```bash
-npm install react-native-woodpicker --save
+yarn install react-native-woodpicker
+yarn add @react-native-community/datetimepicker
 ```
+
+or
+
+```bash
+npm install react-native-woodpicker --save
+npm install @react-native-community/datetimepicker --save
+```
+
+## Version
+
+New Version 0.1.0 integrate new React-Native component **DateTimePicker** and **Hooks**.
+Don't forget to add it to your project.
+
+## Contribution
+
+Thanks to everyone for your contribution!
+I try my best to review and update this repository.
+PR and feedback are welcomed!
 
 ## Usage
 
@@ -52,6 +71,7 @@ class ExampleApp extends Component {
           item={this.state.pickedData}
           //androidPickerMode="dropdown"
           //isNullable
+          //disable
         />
       </View>
     );
@@ -95,6 +115,7 @@ class ExampleApp extends Component {
           //androidPickerMode="spinner"
           //locale="fr"
           //isNullable
+          //disable
         />
       </View>
     );
@@ -115,6 +136,8 @@ class ExampleApp extends Component {
 | **placeholderStyle** | StyleObj | false    | Configure the placeholder style (Text)                         |
 | **disabled**         | boolean  | false    | Disable the input                                              |
 | **isNullable**       | boolean  | false    | Picker : Add null value on items, DatePicker: add reset button |
+| **InputComponent**   | Node     | false    | Component to replace input.                                    |
+| **DoneBarComponent** | Node     | false    | Component to replace iOS Picker Done Bar                       |
 
 ### Picker specific
 
@@ -136,3 +159,21 @@ class ExampleApp extends Component {
 | **androidPickerMode** | "calendar" or "spinner" or "default"                                                                                                                                | false    | Change the Android picker interface                 |
 | **minDate**           | Date                                                                                                                                                                | false    | Restrict date selection with a minimum date         |
 | **maxDate**           | Date                                                                                                                                                                | false    | Restrict date selection with a minimum date         |
+
+### ItemComponent specific
+
+| Name                 | type       | Description                                                           |
+| -------------------- | ---------- | --------------------------------------------------------------------- |
+| **resetValue**       | () => null | Reset value to null if nullable (DatePicker only)                     |
+| **togglePicker**     | () => null | Close Picker (iOS only)                                               |
+| **placeholder**      | String     | Placeholder recieve from the current element                          |
+| **placeholderStyle** | StyleObj   | placeholderStyle props configured in the picker component             |
+| **isNullable**       | boolean    | isNullable props configured in the picker component (DatePicker only) |
+
+### DoneBar Picker specific (iOS only)
+
+| Name            | type       | Description                                       |
+| --------------- | ---------- | ------------------------------------------------- |
+| **title**       | string     | title props configured in the picker component    |
+| **doneText**    | string     | doneText props configured in the picker component |
+| **onDonePress** | () => null | Close the picker and trigger onChange             |
