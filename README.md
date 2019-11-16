@@ -138,6 +138,8 @@ class ExampleApp extends Component {
 | **isNullable**       | boolean  | false    | Picker : Add null value on items, DatePicker: add reset button |
 | **InputComponent**   | Node     | false    | Component to replace input.                                    |
 | **DoneBarComponent** | Node     | false    | Component to replace iOS Picker Done Bar                       |
+| **onOpen**           | function | false    | Triggered when the picker is opening                           |
+| **onClose**          | function | false    | Triggered when the picker is closing                           |
 
 ### Picker specific
 
