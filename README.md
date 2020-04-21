@@ -25,8 +25,14 @@ npm install @react-native-community/picker --save
 
 ## Version
 
-New Version 0.1.0 integrate new React-Native component **DateTimePicker** and **Hooks**.
+### 0.1.0
+
+New Version 0.1.0 integrate new React-Native component **DateTimePicker** from `@react-native-community/datetimepicker` and **Hooks**.
 Don't forget to add it to your project.
+
+### 0.2.0
+
+New Version 0.2.0 integrate new React-Native component **Picker** from `@react-native-community/picker`.
 
 ## Contribution
 
