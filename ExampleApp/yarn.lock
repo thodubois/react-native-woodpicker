@@ -5423,10 +5423,10 @@ react-is@^16.12.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-native-woodpicker@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-woodpicker/-/react-native-woodpicker-0.2.0.tgz#0aebc031225748d5b9e4c6053816f936cb7b4397"
-  integrity sha512-8uUy7I5csSJBOJc6dKQpmqOe918hjhs39sbEgEneUwdVaBPzA8UvbrBZjBzc9pdGc5Wh2VI8wExQZjZxuqQwtg==
+react-native-woodpicker@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-woodpicker/-/react-native-woodpicker-0.2.2.tgz#dfed5449773826be957d420539748007c4285435"
+  integrity sha512-FkuFegsYBtl8R6BsXwLkN7Y4Y6q9sO760z1TVsf8kEwfDEY1Al1Z//ARNz1meaelTUDcNdg4zEfaNJAkXT8y0g==
 
 react-native@0.62.2:
   version "0.62.2"
