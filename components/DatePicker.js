@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import {
-  Platform,
-  View,
-  Modal,
-  Animated,
-  TouchableOpacity
-} from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { styles } from "../helpers/stylesHelper";
-import DefaultInputButton from "./InputButton";
-import DefaultDoneBar from "./DoneBar";
+import React, {useState, useRef} from 'react';
+import {Platform, Animated} from 'react-native';
+import DefaultInputButton from './InputButton';
+import DefaultDoneBar from './DoneBar';
+import IOSDatePicker from './IOSDatePicker';
+import AndroidDatePicker from './AndroidDatePicker';
 
-const isIOS = Platform.OS === "ios";
+const isIOS = Platform.OS === 'ios';
 
 const DatePicker = ({
   date,
@@ -31,17 +25,17 @@ const DatePicker = ({
   onClose,
   disabled,
   InputComponent,
-  DoneBarComponent
+  DoneBarComponent,
 }) => {
   const [pickedDate, setPickedDate] = useState(date || new Date());
   const [show, setShow] = useState(false);
-  const [fadeAnimationValue] = useState(new Animated.Value(0));
+  const fadeAnimationValue = useRef(new Animated.Value(0)).current;
 
-  const handleiOSDateChange = (event, newDate) => {
+  const handleiOSDateChange = (_, newDate) => {
     setPickedDate(newDate);
   };
 
-  const handleAndroidDateChange = (event, newDate) => {
+  const handleAndroidDateChange = (_, newDate) => {
     togglePicker();
     if (newDate !== undefined) {
       setPickedDate(newDate);
@@ -53,25 +47,28 @@ const DatePicker = ({
     onDateChange(null);
   };
 
+  const toggle = () => {
+    setShow(!show);
+    show ? onOpen() : onClose();
+  };
+
   const togglePicker = () => {
     if (disabled) {
       return;
     }
 
-    setShow(!show);
-
-    show ? onOpen() : onClose();
-
     // No animation needed for Android
-    if (!isIOS) {
+    if ((isIOS && !show) || !isIOS) {
+      toggle();
       return;
     }
 
     Animated.timing(fadeAnimationValue, {
       toValue: !show ? 0.5 : 0,
       duration: !show ? 1000 : 0,
-      delay: !show ? 300 : 0
-    }).start();
+      delay: !show ? 300 : 0,
+      useNativeDriver: true,
+    }).start(show ? toggle : null);
 
     setPickedDate(show && date ? date : pickedDate);
   };
@@ -88,7 +85,7 @@ const DatePicker = ({
       style,
       placeholder,
       placeholderStyle,
-      isNullable
+      isNullable,
     };
     const RenderComponent = InputComponent
       ? InputComponent
@@ -100,7 +97,7 @@ const DatePicker = ({
     const barProps = {
       title,
       doneText,
-      onDonePress
+      onDonePress,
     };
     const RenderComponent = DoneBarComponent
       ? DoneBarComponent
@@ -121,7 +118,7 @@ const DatePicker = ({
     onDateChange: isIOS ? handleiOSDateChange : handleAndroidDateChange,
     renderInput: renderInputButton,
     renderDoneBar: renderDoneBarButton,
-    containerStyle: containerStyle
+    containerStyle: containerStyle,
   };
 
   return isIOS ? (
@@ -131,93 +128,15 @@ const DatePicker = ({
   );
 };
 
-const AndroidDatePicker = ({
-  date,
-  show,
-  maximumDate,
-  minimumDate,
-  disabled,
-  locale,
-  mode,
-  renderInput,
-  onDateChange,
-  containerStyle
-}) => {
-  return (
-    <>
-      <View style={containerStyle}>{renderInput()}</View>
-      {show && !disabled && (
-        <DateTimePicker
-          mode={mode}
-          value={date}
-          onChange={onDateChange}
-          minimumDate={minimumDate}
-          maximumDate={maximumDate}
-          locale={locale}
-        />
-      )}
-    </>
-  );
-};
-
-const IOSDatePicker = ({
-  date,
-  show,
-  maximumDate,
-  minimumDate,
-  locale,
-  mode,
-  animationValue,
-  renderInput,
-  renderDoneBar,
-  togglePicker,
-  onDateChange,
-  containerStyle
-}) => {
-  return (
-    <View style={containerStyle}>
-      {renderInput()}
-      <Modal
-        visible={show}
-        transparent
-        animationType="slide"
-        supportedOrientations={["portrait", "landscape"]}
-      >
-        <TouchableOpacity style={styles.blurTouchable} onPress={togglePicker}>
-          <Animated.View
-            style={[
-              styles.animatedInput,
-              {
-                opacity: animationValue
-              }
-            ]}
-          />
-        </TouchableOpacity>
-        {renderDoneBar()}
-        <View style={styles.iosPickerContainerStyle}>
-          <DateTimePicker
-            mode={mode}
-            value={date}
-            onChange={onDateChange}
-            minimumDate={minimumDate}
-            maximumDate={maximumDate}
-            locale={locale}
-          />
-        </View>
-      </Modal>
-    </View>
-  );
-};
-
 DatePicker.defaultProps = {
   isNullable: false,
-  title: "",
-  placeholder: "",
-  androidPickerMode: "calendar",
-  iosPickerMode: "date",
-  locale: "en",
+  title: '',
+  placeholder: '',
+  androidPickerMode: 'calendar',
+  iosPickerMode: 'date',
+  locale: 'en',
   onOpen: () => null,
-  onClose: () => null
+  onClose: () => null,
 };
 
 export default DatePicker;

@@ -1,17 +1,13 @@
-import React, { useState } from "react";
-import {
-  Platform,
-  View,
-  Picker as RNPicker,
-  Modal,
-  Animated,
-  TouchableOpacity
-} from "react-native";
-import { styles } from "../helpers/stylesHelper";
-import DefaultInputButton from "./InputButton";
-import DefaultDoneBar from "./DoneBar";
+import React, {useState, useRef} from 'react';
+import {Platform, Animated} from 'react-native';
+import {Picker as RNPicker} from '@react-native-community/picker';
+import DefaultInputButton from './InputButton';
+import DefaultDoneBar from './DoneBar';
+import IOSPicker from './IOSPicker';
+import AndroidPicker from './AndroidPicker';
 
-const isIOS = Platform.OS === "ios";
+const isIOS = Platform.OS === 'ios';
+const EMPTY_ITEM = {value: '', label: ''};
 
 const Picker = ({
   item,
@@ -29,25 +25,23 @@ const Picker = ({
   containerStyle,
   placeholderStyle,
   InputComponent,
-  DoneBarComponent
+  DoneBarComponent,
 }) => {
   const [show, setShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(
     item
-      ? items.find(current => current === item)
+      ? items.find((current) => current === item)
       : isNullable
-      ? { value: "", label: "" }
-      : items[0]
+      ? EMPTY_ITEM
+      : items[0],
   );
-  const [fadeAnimationValue] = useState(new Animated.Value(0));
+  const fadeAnimationValue = useRef(new Animated.Value(0)).current;
 
-  const handleItemChange = value => {
-    const nullableItems = isNullable
-      ? [{ value: "", label: "" }, ...items]
-      : items;
+  const handleItemChange = (value) => {
+    const nullableItems = isNullable ? [EMPTY_ITEM, ...items] : items;
 
     const newSelectedItem = nullableItems.find(
-      currentItem => value === currentItem.value
+      (currentItem) => value === currentItem.value,
     );
 
     if (!isIOS) {
@@ -57,20 +51,26 @@ const Picker = ({
     setSelectedItem(newSelectedItem);
   };
 
+  const toggle = () => {
+    setShow(!show);
+    show ? onOpen() : onClose();
+  };
+
   const togglePicker = () => {
     if (disabled) {
       return;
     }
 
-    setShow(!show);
-
-    show ? onOpen() : onClose();
+    if (!show) {
+      toggle();
+    }
 
     Animated.timing(fadeAnimationValue, {
       toValue: !show ? 0.5 : 0,
       duration: !show ? 1000 : 0,
-      delay: !show ? 300 : 0
-    }).start();
+      delay: !show ? 300 : 0,
+      useNativeDriver: true,
+    }).start(show ? toggle : null);
   };
 
   const onDonePress = () => {
@@ -79,8 +79,8 @@ const Picker = ({
   };
 
   const renderPickerItems = () => {
-    const tempItems = isNullable ? [{ value: "", label: "" }, ...items] : items;
-    return tempItems.map(current => {
+    const tempItems = isNullable ? [EMPTY_ITEM, ...items] : items;
+    return tempItems.map((current) => {
       return (
         <RNPicker.Item
           label={current.label}
@@ -104,7 +104,7 @@ const Picker = ({
       style,
       placeholder: renderPlaceholder(),
       placeholderStyle,
-      isNullable: false
+      isNullable: false,
     };
     const RenderComponent = InputComponent
       ? InputComponent
@@ -116,7 +116,7 @@ const Picker = ({
     const barProps = {
       title,
       doneText,
-      onDonePress
+      onDonePress,
     };
     const RenderComponent = DoneBarComponent
       ? DoneBarComponent
@@ -139,7 +139,7 @@ const Picker = ({
     style,
     containerStyle,
     placeholderStyle,
-    animationValue: fadeAnimationValue
+    animationValue: fadeAnimationValue,
   };
 
   return isIOS ? (
@@ -149,90 +149,14 @@ const Picker = ({
   );
 };
 
-const IOSPicker = ({
-  selectedItem,
-  disabled,
-  show,
-  title,
-  androidPickerMode,
-  renderInput,
-  renderDoneBar,
-  renderPickerItems,
-  onItemChange,
-  togglePicker,
-  containerStyle,
-  animationValue
-}) => {
-  return (
-    <View style={containerStyle}>
-      {renderInput()}
-      <Modal
-        visible={show}
-        transparent
-        animationType="slide"
-        supportedOrientations={["portrait", "landscape"]}
-      >
-        <TouchableOpacity style={styles.blurTouchable} onPress={togglePicker}>
-          <Animated.View
-            style={[
-              styles.animatedInput,
-              {
-                opacity: animationValue
-              }
-            ]}
-          />
-        </TouchableOpacity>
-        {renderDoneBar()}
-        <RNPicker
-          style={styles.iosPickerContainer}
-          prompt={title}
-          onValueChange={onItemChange}
-          selectedValue={selectedItem.value}
-          mode={androidPickerMode}
-          enabled={!disabled}
-        >
-          {renderPickerItems()}
-        </RNPicker>
-      </Modal>
-    </View>
-  );
-};
-
-const AndroidPicker = ({
-  selectedItem,
-  disabled,
-  title,
-  androidPickerMode,
-  renderInput,
-  renderPickerItems,
-  onItemChange,
-  containerStyle
-}) => {
-  return (
-    <View style={containerStyle}>
-      {renderInput()}
-      <RNPicker
-        style={styles.androidPickerContainer}
-        prompt={title}
-        onValueChange={onItemChange}
-        selectedValue={selectedItem.value}
-        mode={androidPickerMode}
-        enabled={!disabled}
-      >
-        {renderPickerItems()}
-      </RNPicker>
-    </View>
-  );
-};
-
 Picker.defaultProps = {
   isNullable: false,
-  androidPickerMode: "dialog",
-  title: "",
-  placeholder: "",
+  androidPickerMode: 'dialog',
+  title: '',
+  placeholder: '',
   item: null,
   onOpen: () => null,
-  onClose: () => null
+  onClose: () => null,
 };
 
 export default Picker;
