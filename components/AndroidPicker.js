@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import RNPicker from '@react-native-community/datetimepicker';
+import {Picker as RNPicker} from '@react-native-community/picker';
 import {styles} from '../helpers/stylesHelper';
 
 const AndroidPicker = ({
