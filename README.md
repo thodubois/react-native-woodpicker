@@ -119,6 +119,7 @@ class ExampleApp extends Component {
           value={this.state.pickedDate}
           title="Date Picker"
           placeholder={this.handlePlaceholder()}
+          //backdropAnimation={{ opactity: 0 }}
           //iosPickerMode="date"
           //androidPickerMode="spinner"
           //locale="fr"
@@ -135,19 +136,20 @@ class ExampleApp extends Component {
 
 ### General
 
-| Name                 | type     | Required | Description                                                    |
-| -------------------- | -------- | -------- | -------------------------------------------------------------- |
-| **title**            | string   | false    | Configure the picker title (not the placeholder)               |
-| **placeholder**      | string   | false    | Configure the placeholder when no value is selected            |
-| **style**            | StyleObj | false    | Configure the input style (View)                               |
-| **containerStyle**   | StyleObj | false    | Configure the input container style (View)                     |
-| **placeholderStyle** | StyleObj | false    | Configure the placeholder style (Text)                         |
-| **disabled**         | boolean  | false    | Disable the input                                              |
-| **isNullable**       | boolean  | false    | Picker : Add null value on items, DatePicker: add reset button |
-| **InputComponent**   | Node     | false    | Component to replace input.                                    |
-| **DoneBarComponent** | Node     | false    | Component to replace iOS Picker Done Bar                       |
-| **onOpen**           | function | false    | Triggered when the picker is opening                           |
-| **onClose**          | function | false    | Triggered when the picker is closing                           |
+| Name                  | type     | Required | Description                                                                                 |
+| --------------------- | -------- | -------- | ------------------------------------------------------------------------------------------- |
+| **title**             | string   | false    | Configure the picker title (not the placeholder)                                            |
+| **placeholder**       | string   | false    | Configure the placeholder when no value is selected                                         |
+| **style**             | StyleObj | false    | Configure the input style (View)                                                            |
+| **containerStyle**    | StyleObj | false    | Configure the input container style (View)                                                  |
+| **placeholderStyle**  | StyleObj | false    | Configure the placeholder style (Text)                                                      |
+| **disabled**          | boolean  | false    | Disable the input                                                                           |
+| **isNullable**        | boolean  | false    | Picker : Add null value on items, DatePicker: add reset button                              |
+| **InputComponent**    | Node     | false    | Component to replace input.                                                                 |
+| **DoneBarComponent**  | Node     | false    | Component to replace iOS Picker Done Bar                                                    |
+| **onOpen**            | function | false    | Triggered when the picker is opening                                                        |
+| **onClose**           | function | false    | Triggered when the picker is closing                                                        |
+| **backdropAnimation** | Object   | false    | Configure backdrop animation property. Default: {opacity: 0.5 , duration: 1000, delay: 300} |
 
 ### Picker specific
 
