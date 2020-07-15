@@ -6,16 +6,16 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
-import {Platform, StyleSheet, View, Text, Button} from 'react-native';
-import {DatePicker, Picker} from 'react-native-woodpicker';
+import React, { useState } from 'react';
+import { Platform, StyleSheet, View, Text, Button } from 'react-native';
+import { DatePicker, Picker } from 'react-native-woodpicker';
 
 const data = [
-  {label: 'DataCat', value: 1},
-  {label: 'DataDog', value: 2},
-  {label: 'DataSnake', value: 3},
-  {label: 'DataPlatypus', value: 4},
-  {label: 'DataWhale', value: 5},
+  { label: 'DataCat', value: 1 },
+  { label: 'DataDog', value: 2 },
+  { label: 'DataSnake', value: 3 },
+  { label: 'DataPlatypus', value: 4 },
+  { label: 'DataWhale', value: 5 },
 ];
 
 const App = () => {
@@ -44,7 +44,7 @@ const App = () => {
         placeholder="Select Data"
         item={pickedData}
         isNullable
-        //androidPickerMode="dropdown"
+      //androidPickerMode="dropdown"
       />
       <Button title="Set Value" onPress={() => setPickedData(data[1])} />
       <DatePicker
@@ -54,11 +54,12 @@ const App = () => {
         title="Date Picker"
         placeholder={handlePlaceholder()}
         isNullable
-        //minDate={new Date(Date.now())}
-        //maxDate={new Date(Date.now()+2000000000)}
-        //iosPickerMode="date"
-        //androidPickerMode="spinner"
-        //locale="fr"
+      //backdropAnimation={{ opactity: 0 }}
+      //minDate={new Date(Date.now())}
+      //maxDate={new Date(Date.now()+2000000000)}
+      //iosPickerMode="date"
+      //androidPickerMode="spinner"
+      //locale="fr"
       />
       <Button title="Set Today" onPress={() => setPickedDate(new Date())} />
     </View>
