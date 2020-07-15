@@ -1,11 +1,22 @@
-import React, {useState, useRef} from 'react';
-import {Platform, Animated} from 'react-native';
+import React, { useState, useRef, useMemo } from 'react';
+import { Platform, Animated } from 'react-native';
 import DefaultInputButton from './InputButton';
 import DefaultDoneBar from './DoneBar';
 import IOSDatePicker from './IOSDatePicker';
 import AndroidDatePicker from './AndroidDatePicker';
 
 const isIOS = Platform.OS === 'ios';
+const DEFAULT_BACKDROP_ANIMATION = {
+  opactiy: 0.5,
+  duration: 1000,
+  delay: 300,
+}
+function getAnimatedProperties(backdropAnimation) {
+  return {
+    ...DEFAULT_BACKDROP_ANIMATION,
+    ...backdropAnimation,
+  }
+}
 
 const DatePicker = ({
   date,
@@ -26,10 +37,13 @@ const DatePicker = ({
   disabled,
   InputComponent,
   DoneBarComponent,
+  backdropAnimation,
 }) => {
   const [pickedDate, setPickedDate] = useState(date || new Date());
   const [show, setShow] = useState(false);
   const fadeAnimationValue = useRef(new Animated.Value(0)).current;
+
+  const animationProperties = useMemo(() => getAnimatedProperties(backdropAnimation), [backdropAnimation])
 
   const handleiOSDateChange = (_, newDate) => {
     setPickedDate(newDate);
@@ -57,16 +71,16 @@ const DatePicker = ({
       return;
     }
 
-    // No animation needed for Android
-    if ((isIOS && !show) || !isIOS) {
+    if (!show) {
       toggle();
-      return;
+      // No animation needed for Android
+      if (!isIOS) return;
     }
 
     Animated.timing(fadeAnimationValue, {
-      toValue: !show ? 0.5 : 0,
-      duration: !show ? 1000 : 0,
-      delay: !show ? 300 : 0,
+      toValue: !show ? animationProperties.opactiy : 0,
+      duration: !show ? animationProperties.duration : 0,
+      delay: !show ? animationProperties.delay : 0,
       useNativeDriver: true,
     }).start(show ? toggle : null);
 
@@ -124,8 +138,8 @@ const DatePicker = ({
   return isIOS ? (
     <IOSDatePicker {...datePickerProps} />
   ) : (
-    <AndroidDatePicker {...datePickerProps} />
-  );
+      <AndroidDatePicker {...datePickerProps} />
+    );
 };
 
 DatePicker.defaultProps = {
@@ -137,6 +151,7 @@ DatePicker.defaultProps = {
   locale: 'en',
   onOpen: () => null,
   onClose: () => null,
+  backdropAnimation: DEFAULT_BACKDROP_ANIMATION,
 };
 
 export default DatePicker;

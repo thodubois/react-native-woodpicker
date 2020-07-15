@@ -1,13 +1,24 @@
-import React, {useState, useRef} from 'react';
-import {Platform, Animated} from 'react-native';
-import {Picker as RNPicker} from '@react-native-community/picker';
+import React, { useState, useRef, useMemo } from 'react';
+import { Platform, Animated } from 'react-native';
+import { Picker as RNPicker } from '@react-native-community/picker';
 import DefaultInputButton from './InputButton';
 import DefaultDoneBar from './DoneBar';
 import IOSPicker from './IOSPicker';
 import AndroidPicker from './AndroidPicker';
 
 const isIOS = Platform.OS === 'ios';
-const EMPTY_ITEM = {value: '', label: ''};
+const EMPTY_ITEM = { value: '', label: '' };
+const DEFAULT_BACKDROP_ANIMATION = {
+  opactiy: 0.5,
+  duration: 1000,
+  delay: 300,
+}
+function getAnimatedProperties(backdropAnimation) {
+  return {
+    ...DEFAULT_BACKDROP_ANIMATION,
+    ...backdropAnimation,
+  }
+}
 
 const Picker = ({
   item,
@@ -26,16 +37,19 @@ const Picker = ({
   placeholderStyle,
   InputComponent,
   DoneBarComponent,
+  backdropAnimation,
 }) => {
   const [show, setShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(
     item
       ? items.find((current) => current === item)
       : isNullable
-      ? EMPTY_ITEM
-      : items[0],
+        ? EMPTY_ITEM
+        : items[0],
   );
   const fadeAnimationValue = useRef(new Animated.Value(0)).current;
+
+  const animationProperties = useMemo(() => getAnimatedProperties(backdropAnimation), [backdropAnimation])
 
   const handleItemChange = (value) => {
     const nullableItems = isNullable ? [EMPTY_ITEM, ...items] : items;
@@ -66,9 +80,9 @@ const Picker = ({
     }
 
     Animated.timing(fadeAnimationValue, {
-      toValue: !show ? 0.5 : 0,
-      duration: !show ? 1000 : 0,
-      delay: !show ? 300 : 0,
+      toValue: !show ? animationProperties.opactiy : 0,
+      duration: !show ? animationProperties.duration : 0,
+      delay: !show ? animationProperties.delay : 0,
       useNativeDriver: true,
     }).start(show ? toggle : null);
   };
@@ -145,8 +159,8 @@ const Picker = ({
   return isIOS ? (
     <IOSPicker {...pickerProps} />
   ) : (
-    <AndroidPicker {...pickerProps} />
-  );
+      <AndroidPicker {...pickerProps} />
+    );
 };
 
 Picker.defaultProps = {
@@ -157,6 +171,7 @@ Picker.defaultProps = {
   item: null,
   onOpen: () => null,
   onClose: () => null,
+  backdropAnimation: DEFAULT_BACKDROP_ANIMATION,
 };
 
 export default Picker;
