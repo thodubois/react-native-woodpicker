@@ -50,7 +50,7 @@ const DatePicker = ({
   };
 
   const handleAndroidDateChange = (_, newDate) => {
-    togglePicker();
+    //togglePicker();
     if (newDate !== undefined) {
       setPickedDate(newDate);
       onDateChange(newDate);
@@ -71,10 +71,14 @@ const DatePicker = ({
       return;
     }
 
+    // No animation needed for Android
+    if (!isIOS) {
+      toggle()
+      return;
+    };
+
     if (!show) {
       toggle();
-      // No animation needed for Android
-      if (!isIOS) return;
     }
 
     Animated.timing(fadeAnimationValue, {
