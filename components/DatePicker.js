@@ -38,6 +38,8 @@ const DatePicker = ({
   InputComponent,
   DoneBarComponent,
   backdropAnimation,
+  iOSOnlyProps,
+  androidOnlyProps,
 }) => {
   const [pickedDate, setPickedDate] = useState(date || new Date());
   const [show, setShow] = useState(false);
@@ -137,6 +139,7 @@ const DatePicker = ({
     renderInput: renderInputButton,
     renderDoneBar: renderDoneBarButton,
     containerStyle: containerStyle,
+    customProps: isIOS ? iOSOnlyProps : androidOnlyProps
   };
 
   return isIOS ? (
@@ -156,6 +159,8 @@ DatePicker.defaultProps = {
   onOpen: () => null,
   onClose: () => null,
   backdropAnimation: DEFAULT_BACKDROP_ANIMATION,
+  iOSOnlyProps: {},
+  androidOnlyProps: {},
 };
 
 export default DatePicker;

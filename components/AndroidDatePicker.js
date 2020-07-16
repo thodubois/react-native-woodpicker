@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AndroidDatePicker = ({
@@ -25,6 +25,7 @@ const AndroidDatePicker = ({
           minimumDate={minimumDate}
           maximumDate={maximumDate}
           locale={locale}
+          {...customProps}
         />
       )}
     </>

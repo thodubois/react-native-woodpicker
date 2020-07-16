@@ -38,6 +38,8 @@ const Picker = ({
   InputComponent,
   DoneBarComponent,
   backdropAnimation,
+  iOSOnlyProps,
+  androidOnlyProps,
 }) => {
   const [show, setShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(
@@ -154,6 +156,7 @@ const Picker = ({
     containerStyle,
     placeholderStyle,
     animationValue: fadeAnimationValue,
+    customProps: isIOS ? iOSOnlyProps : androidOnlyProps
   };
 
   return isIOS ? (
@@ -172,6 +175,8 @@ Picker.defaultProps = {
   onOpen: () => null,
   onClose: () => null,
   backdropAnimation: DEFAULT_BACKDROP_ANIMATION,
+  iOSOnlyProps: {},
+  androidOnlyProps: {},
 };
 
 export default Picker;

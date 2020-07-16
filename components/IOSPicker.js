@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {View, Modal, Animated, TouchableOpacity} from 'react-native';
-import {Picker as RNPicker} from '@react-native-community/picker';
-import {styles} from '../helpers/stylesHelper';
+import { View, Modal, Animated, TouchableOpacity } from 'react-native';
+import { Picker as RNPicker } from '@react-native-community/picker';
+import { styles } from '../helpers/stylesHelper';
 
 const IOSPicker = ({
   selectedItem,
@@ -16,6 +16,7 @@ const IOSPicker = ({
   togglePicker,
   containerStyle,
   animationValue,
+  customProps
 }) => {
   return (
     <View style={containerStyle}>
@@ -42,7 +43,8 @@ const IOSPicker = ({
           onValueChange={onItemChange}
           selectedValue={selectedItem.value}
           mode={androidPickerMode}
-          enabled={!disabled}>
+          enabled={!disabled}
+          {...customProps}>
           {renderPickerItems()}
         </RNPicker>
       </Modal>
