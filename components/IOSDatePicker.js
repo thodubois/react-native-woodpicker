@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {View, Modal, Animated, TouchableOpacity} from 'react-native';
+import { View, Modal, Animated, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {styles} from '../helpers/stylesHelper';
+import { styles } from '../helpers/stylesHelper';
 
 const IOSDatePicker = ({
   date,
@@ -16,6 +16,7 @@ const IOSDatePicker = ({
   togglePicker,
   onDateChange,
   containerStyle,
+  customProps,
 }) => {
   return (
     <View style={containerStyle}>
@@ -44,6 +45,7 @@ const IOSDatePicker = ({
             minimumDate={minimumDate}
             maximumDate={maximumDate}
             locale={locale}
+            {...customProps}
           />
         </View>
       </Modal>
