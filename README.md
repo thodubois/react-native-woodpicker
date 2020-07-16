@@ -10,17 +10,20 @@ Customisable picker and datePicker react-native components for Android and iOS.
 ## Installation
 
 ```bash
-yarn install react-native-woodpicker
-yarn add @react-native-community/datetimepicker
-yarn add @react-native-community/picker
+yarn add react-native-woodpicker @react-native-community/datetimepicker @react-native-community/picker
 ```
 
 or
 
 ```bash
-npm install react-native-woodpicker --save
-npm install @react-native-community/datetimepicker --save
-npm install @react-native-community/picker --save
+npm install react-native-woodpicker @react-native-community/datetimepicker @react-native-community/picker --save
+```
+
+### Expo
+
+```bash
+// add react-native-woodpicker with your package manager (yarn / npm / ...) and :
+expo install @react-native-community/datetimepicker @react-native-community/picker
 ```
 
 ## Version
