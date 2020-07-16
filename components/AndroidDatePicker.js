@@ -13,6 +13,7 @@ const AndroidDatePicker = ({
   renderInput,
   onDateChange,
   containerStyle,
+  customProps,
 }) => {
   return (
     <>
