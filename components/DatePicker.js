@@ -1,21 +1,21 @@
-import React, { useState, useRef, useMemo } from 'react';
-import { Platform, Animated } from 'react-native';
-import DefaultInputButton from './InputButton';
-import DefaultDoneBar from './DoneBar';
-import IOSDatePicker from './IOSDatePicker';
-import AndroidDatePicker from './AndroidDatePicker';
+import React, { useState, useRef, useMemo } from "react";
+import { Platform, Animated } from "react-native";
+import DefaultInputButton from "./InputButton";
+import DefaultDoneBar from "./DoneBar";
+import IOSDatePicker from "./IOSDatePicker";
+import AndroidDatePicker from "./AndroidDatePicker";
 
-const isIOS = Platform.OS === 'ios';
+const isIOS = Platform.OS === "ios";
 const DEFAULT_BACKDROP_ANIMATION = {
   opactiy: 0.5,
   duration: 1000,
   delay: 300,
-}
+};
 function getAnimatedProperties(backdropAnimation) {
   return {
     ...DEFAULT_BACKDROP_ANIMATION,
     ...backdropAnimation,
-  }
+  };
 }
 
 const DatePicker = ({
@@ -45,14 +45,17 @@ const DatePicker = ({
   const [show, setShow] = useState(false);
   const fadeAnimationValue = useRef(new Animated.Value(0)).current;
 
-  const animationProperties = useMemo(() => getAnimatedProperties(backdropAnimation), [backdropAnimation])
+  const animationProperties = useMemo(
+    () => getAnimatedProperties(backdropAnimation),
+    [backdropAnimation]
+  );
 
   const handleiOSDateChange = (_, newDate) => {
     setPickedDate(newDate);
   };
 
   const handleAndroidDateChange = (_, newDate) => {
-    //togglePicker();
+    togglePicker();
     if (newDate !== undefined) {
       setPickedDate(newDate);
       onDateChange(newDate);
@@ -75,9 +78,9 @@ const DatePicker = ({
 
     // No animation needed for Android
     if (!isIOS) {
-      toggle()
+      toggle();
       return;
-    };
+    }
 
     if (!show) {
       toggle();
@@ -139,23 +142,23 @@ const DatePicker = ({
     renderInput: renderInputButton,
     renderDoneBar: renderDoneBarButton,
     containerStyle: containerStyle,
-    customProps: isIOS ? iOSOnlyProps : androidOnlyProps
+    customProps: isIOS ? iOSOnlyProps : androidOnlyProps,
   };
 
   return isIOS ? (
     <IOSDatePicker {...datePickerProps} />
   ) : (
-      <AndroidDatePicker {...datePickerProps} />
-    );
+    <AndroidDatePicker {...datePickerProps} />
+  );
 };
 
 DatePicker.defaultProps = {
   isNullable: false,
-  title: '',
-  placeholder: '',
-  androidPickerMode: 'calendar',
-  iosPickerMode: 'date',
-  locale: 'en',
+  title: "",
+  placeholder: "",
+  androidPickerMode: "calendar",
+  iosPickerMode: "date",
+  locale: "en",
   onOpen: () => null,
   onClose: () => null,
   backdropAnimation: DEFAULT_BACKDROP_ANIMATION,

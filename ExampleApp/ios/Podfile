@@ -5,14 +5,13 @@ platform :ios, '10.0'
 
 target 'ExampleApp' do
   config = use_native_modules!
+
   use_react_native!(:path => config["reactNativePath"])
 
   target 'ExampleAppTests' do
     inherit! :complete
     # Pods for testing
   end
-
-  use_native_modules!
 
   # Enables Flipper.
   #
