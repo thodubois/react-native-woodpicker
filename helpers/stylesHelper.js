@@ -38,6 +38,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: 'white',
   },
+  iosPickerContainerInline: {
+    height: ifIphoneX(390, 350),
+  },
   resetButtonStyle: Platform.select({
     android: {fontSize: 18},
     ios: {fontSize: 20},
@@ -63,4 +66,16 @@ export const styles = StyleSheet.create({
     right: 0,
     left: 0,
   },
+  displayCompactIOS:{
+    position: 'absolute',
+    top:0,
+    right:0,
+    bottom:0,
+    left:0,
+    height: '100%',
+    width: '100%',
+    opacity:0.03,
+    zIndex: 1,
+    backgroundColor: '#fff'
+  }
 });

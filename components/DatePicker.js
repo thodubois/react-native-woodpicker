@@ -23,6 +23,7 @@ const DatePicker = ({
   containerStyle,
   locale,
   iosPickerMode,
+  display,
   placeholder,
   placeholderStyle,
   style,
@@ -52,6 +53,7 @@ const DatePicker = ({
 
   const handleiOSDateChange = (_, newDate) => {
     setPickedDate(newDate);
+    if(isIOS && display === 'compact') onDateChange(newDate)
   };
 
   const handleAndroidDateChange = (_, newDate) => {
@@ -132,6 +134,7 @@ const DatePicker = ({
     locale,
     mode: iosPickerMode,
     show,
+    display,
     disabled,
     animationValue: fadeAnimationValue,
     maximumDate: maxDate,
@@ -158,6 +161,7 @@ DatePicker.defaultProps = {
   placeholder: "",
   androidPickerMode: "calendar",
   iosPickerMode: "date",
+  display: isIOS ? "spinner" : "calendar", //Android => default, spinner, calendar, clock; IOS => default, spinner, compact, inline;
   locale: "en",
   onOpen: () => null,
   onClose: () => null,
