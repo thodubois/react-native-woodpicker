@@ -9,6 +9,7 @@ const IOSDatePicker = ({
   maximumDate,
   minimumDate,
   locale,
+  display,
   mode,
   animationValue,
   renderInput,
