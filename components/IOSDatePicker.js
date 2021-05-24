@@ -9,6 +9,7 @@ const IOSDatePicker = ({
   maximumDate,
   minimumDate,
   locale,
+  display,
   mode,
   animationValue,
   renderInput,
@@ -18,6 +19,28 @@ const IOSDatePicker = ({
   containerStyle,
   customProps,
 }) => {
+
+    if(display === 'compact'){
+      return (
+        <View style={containerStyle}>
+            {renderInput()}
+            <View>
+                <DateTimePicker
+                mode={mode}
+                display={display}
+                style={styles.displayCompactIOS}
+                value={date}
+                onChange={onDateChange}
+                minimumDate={minimumDate}
+                maximumDate={maximumDate}
+                locale={locale}
+                {...customProps}
+                />
+            </View>
+        </View>
+      )
+    }
+
   return (
     <View style={containerStyle}>
       {renderInput()}
@@ -37,9 +60,13 @@ const IOSDatePicker = ({
           />
         </TouchableOpacity>
         {renderDoneBar()}
-        <View style={styles.iosPickerContainerStyle}>
+        <View style={[
+            styles.iosPickerContainerStyle,
+            display === 'inline' ? styles.iosPickerContainerInline : null
+        ]}>
           <DateTimePicker
             mode={mode}
+            display={display}
             value={date}
             onChange={onDateChange}
             minimumDate={minimumDate}

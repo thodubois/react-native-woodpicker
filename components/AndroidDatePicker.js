@@ -8,6 +8,7 @@ const AndroidDatePicker = ({
   maximumDate,
   minimumDate,
   disabled,
+  display,
   locale,
   mode,
   renderInput,
@@ -25,6 +26,7 @@ const AndroidDatePicker = ({
           onChange={onDateChange}
           minimumDate={minimumDate}
           maximumDate={maximumDate}
+          display={display}
           locale={locale}
           {...customProps}
         />
