@@ -37,6 +37,10 @@ Don't forget to add it to your project.
 
 New Version 0.2.0 integrate new React-Native component **Picker** from `@react-native-community/picker`.
 
+### 0.3.0
+
+New Version 0.3.0 use Typescript and change the picker dependency from `@react-native-community/picker` to `@react-native-picker/picker`.
+
 ## Contribution
 
 Thanks to everyone for your contribution!
@@ -50,16 +54,15 @@ PR and feedback are welcomed!
 You can use Picker to pick values/objects.
 
 ```jsx
+import type { PickerItem } from 'react-native-woodpicker'
 import { Picker } from 'react-native-woodpicker'
 
 [...]
 
-class ExampleApp extends Component {
-  state = {
-    pickedData: null
-  };
+const ExampleApp = (): JSX.Element => {
+  const [pickedData, setPickedData] = useState<PickerItem>();
 
-  data = [
+  const data: Array<PickerItem> = [
     { label: "DataCat", value: 1 },
     { label: "DataDog", value: 2 },
     { label: "DataSnake", value: 3 },
@@ -67,27 +70,22 @@ class ExampleApp extends Component {
     { label: "DataWhale", value: 5 }
   ];
 
-  handlePicker = data => {
-    this.setState({ pickedData: data });
-  };
-
-  render() {
-    return (
-      <View>
-        <Picker
-          onItemChange={this.handlePicker}
-          items={this.data}
-          title="Data Picker"
-          placeholder="Select Data"
-          item={this.state.pickedData}
-          //backdropAnimation={{ opactity: 0 }}
-          //androidPickerMode="dropdown"
-          //isNullable
-          //disable
-        />
-      </View>
-    );
-  }
+  return (
+    <View>
+      <Picker
+      onChange={setPickedData}
+      items={data}
+      title="Data Picker"
+      placeholder="Select Data"
+      item={pickedData}
+      isNullable
+      //backdropAnimation={{ opactity: 0 }}
+      //mode="dropdown"
+      //isNullable
+      //disable
+    />
+    </View>
+  );
 }
 ```
 
@@ -101,38 +99,33 @@ import { DatePicker } from 'react-native-woodpicker'
 
 [...]
 
-class ExampleApp extends Component {
-  state = {
-    pickedDate: null
-  };
+const ExampleApp = (): JSX.Element => {
+  const [pickedDate, setPickedDate] = useState<Date>();
 
-  handlePicker = data => {
-    this.setState({ pickedData: data });
-  };
-
-  handlePlaceholder = () =>
-    this.state.pickedDate
-      ? this.state.pickedDate.toDateString()
+  const handleText = (): string => pickedDate
+      ? pickedDate.toDateString()
       : "No value Selected";
 
-  render() {
-    return (
-      <View>
-        <DatePicker
-          onDateChange={this.handleDatePicker}
-          value={this.state.pickedDate}
-          title="Date Picker"
-          placeholder={this.handlePlaceholder()}
-          //iOSOnlyProps={{style: {color: 'green'} }}
-          //iosPickerMode="date"
-          //androidPickerMode="spinner"
-          //locale="fr"
-          //isNullable
-          //disable
-        />
-      </View>
-    );
-  }
+  return (
+    <View>
+      <DatePicker
+        onChange={setPickedDate}
+        selectedDate={pickedDate}
+        title="Date Picker"
+        text={handleText()}
+        isNullable
+        iosDisplay="inline"
+        //backdropAnimation={{ opactity: 0 }}
+        //minDate={new Date(Date.now())}
+        //maxDate={new Date(Date.now()+2000000000)}
+        //iosMode="date"
+        //androidMode="countdown"
+        //iosDisplay="spinner"
+        //androidDisplay="spinner"
+        //locale="fr"
+      />
+    </View>
+  );
 }
 ```
 
@@ -140,58 +133,72 @@ class ExampleApp extends Component {
 
 ### General
 
-| Name                  | type     | Required | Description                                                                                                  |
-| --------------------- | -------- | -------- | ------------------------------------------------------------------------------------------------------------ |
-| **title**             | string   | false    | Configure the picker title (not the placeholder)                                                             |
-| **placeholder**       | string   | false    | Configure the placeholder when no value is selected                                                          |
-| **style**             | StyleObj | false    | Configure the input style (View)                                                                             |
-| **containerStyle**    | StyleObj | false    | Configure the input container style (View)                                                                   |
-| **placeholderStyle**  | StyleObj | false    | Configure the placeholder style (Text)                                                                       |
-| **disabled**          | boolean  | false    | Disable the input                                                                                            |
-| **isNullable**        | boolean  | false    | Picker : Add null value on items, DatePicker: add reset button                                               |
-| **InputComponent**    | Node     | false    | Component to replace input.                                                                                  |
-| **DoneBarComponent**  | Node     | false    | Component to replace iOS Picker Done Bar                                                                     |
-| **onOpen**            | function | false    | Triggered when the picker is opening                                                                         |
-| **onClose**           | function | false    | Triggered when the picker is closing                                                                         |
-| **backdropAnimation** | Object   | false    | Configure backdrop animation property. Default: {opacity: 0.5 , duration: 1000, delay: 300}                  |
-| **iOSOnlyProps**      | Object   | false    | Configure iOS props to pass to the native component (Picker or DatePicker) from `react-native-community`     |
-| **androidOnlyProps**  | Object   | false    | Configure Android props to pass to the native component (Picker or DatePicker) from `react-native-community` |
+| Name                   | type                            | Required | Description                                                                                                  |
+| ---------------------- | ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
+| **title**              | string                          | false    | Change DoneBar title                                                                                         |
+| **doneButtonLabel**    | string                          | false    | Change done button label                                                                                     |
+| **style**              | ViewStyle                       | false    | Configure the input style (View)                                                                             |
+| **containerStyle**     | ViewStyle                       | false    | Configure the input container style (View)                                                                   |
+| **textInputStyle**     | TextStyle                       | false    | Configure the input text style (Text)                                                                        |
+| **disabled**           | boolean                         | false    | Disable the input                                                                                            |
+| **isNullable**         | boolean                         | false    | Picker : Add null value on items, DatePicker: add reset button                                               |
+| **InputComponent**     | React.ElementType<InputProps>   | false    | Component to replace input.                                                                                  |
+| **DoneBarComponent**   | React.ElementType<DoneBarProps> | false    | Component to replace iOS Picker Done Bar                                                                     |
+| **onOpen**             | function                        | false    | Triggered when the picker is opening                                                                         |
+| **onClose**            | function                        | false    | Triggered when the picker is closing                                                                         |
+| **backdropAnimation**  | Object                          | false    | Configure backdrop animation property. Default: {opacity: 0.5 , duration: 1000, delay: 300}                  |
+| **iOSCustomProps**     | Object                          | false    | Configure iOS props to pass to the native component (Picker or DatePicker) from `react-native-community`     |
+| **androidCustomProps** | Object                          | false    | Configure Android props to pass to the native component (Picker or DatePicker) from `react-native-community` |
 
-### Picker specific
+### Picker
 
-| Name                  | type                                        | Required | Description                                         |
-| --------------------- | ------------------------------------------- | -------- | --------------------------------------------------- |
-| **item**              | { label: string, value: any }               | true     | Configure the picker title (not the placeholder)    |
-| **onItemChange**      | (item: { label: string, value: any }) => {} | true     | Configure the placeholder when no value is selected |
-| **items**             | Array<{ label: string, value: any }>        | true     | Configure the input style (View)                    |
-| **androidPickerMode** | "dialog" or "dropdown"                      | false    | Configure the input container style (View)          |
+| Name                    | type                                       | Required | Description                                       |
+| ----------------------- | ------------------------------------------ | -------- | ------------------------------------------------- |
+| **item**                | PickerItem ({ label: string, value: any }) | true     | Configure the current selected item               |
+| **placeholder**         | string                                     | false    | Configure the picker label if no item is selected |
+| **onItemChange**        | (item: PickerItem, index: number) => void; | true     | Add listener on change event                      |
+| **items**               | Array<PickerItem>                          | true     | Configure the list of available items             |
+| **mode** (Android Only) | "dialog" or "dropdown"                     | false    | Configure the android picker mode                 |
 
 ### DatePicker specific
 
-| Name                  | type                                                                                                                                                                | Required | Description                                         |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------------------------------------------------- |
-| **date**              | Date                                                                                                                                                                | true     | Configure the picker title (not the placeholder)    |
-| **onDateChange**      | (date: ?Date) => {}                                                                                                                                                 | true     | Configure the placeholder when no value is selected |
-| **locale**            | "string" ([Locale IDs](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/LanguageandLocaleIDs/LanguageandLocaleIDs.html)) | false    | Change the iOS picker locale                        |
-| **iosPickerMode**     | "date" or "time" or "datetime"                                                                                                                                      | false    | Change the iOS picker interface                     |
-| **androidPickerMode** | "calendar" or "spinner" or "default"                                                                                                                                | false    | Change the Android picker interface                 |
-| **minDate**           | Date                                                                                                                                                                | false    | Restrict date selection with a minimum date         |
-| **maxDate**           | Date                                                                                                                                                                | false    | Restrict date selection with a minimum date         |
+| Name                                  | type                                                                                                                                                              | Required | Description                                         |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------------------------------------------------- |
+| **value**                             | Date                                                                                                                                                              | true     | Configure the picker title (not the placeholder)    |
+| **onDateChange**                      | (date: ?Date) => {}                                                                                                                                               | true     | Configure the placeholder when no value is selected |
+| **locale**                            | string ([Locale IDs](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/LanguageandLocaleIDs/LanguageandLocaleIDs.html)) | false    | Change the iOS picker locale                        |
+| **iosMode** (iOS Only)                | "date" or "time" or "datetime"                                                                                                                                    | false    | Change the iOS picker mode                          |
+| **androidMode** (Android Only)        | "calendar" or "spinner" or "default"                                                                                                                              | false    | Change the Android picker mode                      |
+| **iosMode** (iOS Only)                | "default" or "spinner" or "inline" or "compact"                                                                                                                   | false    | Change the iOS picker display                       |
+| **androidMode** (Android Only)        | "default" or "spinner" or "calendar" or "clock"                                                                                                                   | false    | Change the Android picker display                   |
+| **minimumDate**                       | Date                                                                                                                                                              | false    | Restrict date selection with a minimum date         |
+| **maximumDate**                       | Date                                                                                                                                                              | false    | Restrict date selection with a minimum date         |
+| **neutralButtonLabel** (Android Only) | string                                                                                                                                                            | false    | Change "clear" button label                         |
+| **is24Hour** (Android Only)           | boolean                                                                                                                                                           | false    | Changing timepicker to 24h format                   |
+| **textColor** (iOS Only)              | string                                                                                                                                                            | false    | Change text color on "spinner" display              |
+| **text**                              | string                                                                                                                                                            | false    | Change picker button text                           |
+| **onOpen**                            | () => void                                                                                                                                                        | false    | Add listener on modal open event                    |
+| **onClose**                           | () => void                                                                                                                                                        | false    | Add listener on modal close event                   |
+| **minuteInterval**                    | number : 1 or 2 or 3 or 4 or 5 or 6 or 10 or 12 or 15 or 20 or 30                                                                                                 | false    | The interval at which minutes can be selected       |
+| **timeZoneOffsetInMinutes**           | number                                                                                                                                                            | false    | Change the timeZone of the date picker              |
+| **iosCompactHiddenStyle** (iOS only)  | ViewStyle                                                                                                                                                         | false    | Change style for the ios picker in compact mode     |
 
 ### ItemComponent specific
 
-| Name                 | type       | Description                                                           |
-| -------------------- | ---------- | --------------------------------------------------------------------- |
-| **resetValue**       | () => null | Reset value to null if nullable (DatePicker only)                     |
-| **togglePicker**     | () => null | Close Picker (iOS only)                                               |
-| **placeholder**      | String     | Placeholder recieve from the current element                          |
-| **placeholderStyle** | StyleObj   | placeholderStyle props configured in the picker component             |
-| **isNullable**       | boolean    | isNullable props configured in the picker component (DatePicker only) |
+| Name                                        | type                                   | Description                                                             |
+| ------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------- |
+| **resetValue**                              | () => void                             | Reset value to null if nullable (DatePicker only)                       |
+| **togglePicker**                            | (event: GestureResponderEvent) => void | Close Picker (iOS only)                                                 |
+| **text**                                    | string                                 | Input text recieved from the current element                            |
+| **textInputStyle**                          | StyleObj                               | textInputStyle props configured in the picker component                 |
+| **isNullable**                              | boolean                                | isNullable props configured in the picker component (DatePicker only)   |
+| **isCompactHiddenPickerNeeded** (iOS only)  | boolean                                | `true` if you need to use `renderHiddenCompactIOSPicker`                |
+| **renderHiddenCompactIOSPicker** (iOS only) | () => JSX.Element                      | Render the DateTimePicker as a invisible button that overlay his parent |
 
 ### DoneBar Picker specific (iOS only)
 
-| Name            | type       | Description                                       |
-| --------------- | ---------- | ------------------------------------------------- |
-| **title**       | string     | title props configured in the picker component    |
-| **doneText**    | string     | doneText props configured in the picker component |
-| **onDonePress** | () => null | Close the picker and trigger onChange             |
+| Name                | type                                   | Description                                              |
+| ------------------- | -------------------------------------- | -------------------------------------------------------- |
+| **title**           | string                                 | title props configured in the picker component           |
+| **doneButtonLabel** | string                                 | doneButtonLabel props configured in the picker component |
+| **onDonePress**     | (event: GestureResponderEvent) => void | Close the picker and trigger onChange                    |

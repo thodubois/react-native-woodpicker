@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["ES2019"],
+    "target": "es6",
+    "strict": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react"
+  },
+  "include": ["src"]
+}
