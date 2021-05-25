@@ -1,4 +1,6 @@
-ExampleApp
+example
 .gitignore
 assets
 node_modules
+src
+.eslintrc.json

@@ -1,12 +1,42 @@
 {
   "name": "react-native-woodpicker",
-  "version": "0.2.8",
+  "version": "0.3.3",
   "description": "React Native picker and date picker for iOS and Android",
-  "main": "index.js",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": "Fromwood",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/thodubois/react-native-woodpicker"
+  },
+  "bugs": {
+    "url": "https://github.com/thodubois/react-native-woodpicker/issues"
+  },
+  "homepage": "https://github.com/thodubois/react-native-woodpicker#readme",
+  "keywords": [
+    "react-native",
+    "picker",
+    "datetimepicker",
+    "react"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src"
+  },
+  "devDependencies": {
+    "@react-native-community/datetimepicker": "3.5.0",
+    "@react-native-picker/picker": "1.16.1",
+    "@types/react": "16.14.0",
+    "@types/react-native": "0.64.4",
+    "@typescript-eslint/eslint-plugin": "4.22.0",
+    "@typescript-eslint/parser": "4.22.0",
+    "eslint": "7.25.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "typescript": "4.2.4"
   }
 }
