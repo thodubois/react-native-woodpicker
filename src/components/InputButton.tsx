@@ -10,6 +10,7 @@ const InputButton = ({
   style,
   text,
   textInputStyle,
+  touchableStyle,
   isNullable,
   isCompactHiddenPickerNeeded,
   renderHiddenCompactIOSPicker,
@@ -29,7 +30,7 @@ const InputButton = ({
         </View>
       ) : (
         <TouchableWithoutFeedback onPress={togglePicker}>
-          <View style={styles.placeHolderContainerStyle}>
+          <View style={[styles.placeHolderContainerStyle, touchableStyle]}>
             <Text
               style={[styles.placeholderStyle, textInputStyle]}
               numberOfLines={1}

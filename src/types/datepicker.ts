@@ -36,4 +36,6 @@ export type DatePickerProps = {
   style?: ViewStyle;
   textInputStyle?: TextStyle;
   containerStyle?: ViewStyle;
+  touchableStyle?: ViewStyle;
+  iosCompactHiddenStyle?: ViewStyle;
 };

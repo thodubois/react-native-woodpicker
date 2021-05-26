@@ -27,6 +27,7 @@ const Picker = ({
   style,
   containerStyle,
   textInputStyle,
+  touchableStyle,
   InputComponent,
   DoneBarComponent,
   backdropAnimation = DEFAULT_BACKDROP_ANIMATION,
@@ -118,6 +119,7 @@ const Picker = ({
       style,
       text: renderPlaceholder(),
       textInputStyle,
+      touchableStyle,
       isNullable: false, // DatePicker only
       resetValue: undefined,
       renderHiddenCompactIOSPicker: () => null, //DatePicker only

@@ -182,6 +182,7 @@ const ExampleApp = (): JSX.Element => {
 | **minuteInterval**                    | number : 1 or 2 or 3 or 4 or 5 or 6 or 10 or 12 or 15 or 20 or 30                                                                                                 | false    | The interval at which minutes can be selected       |
 | **timeZoneOffsetInMinutes**           | number                                                                                                                                                            | false    | Change the timeZone of the date picker              |
 | **iosCompactHiddenStyle** (iOS only)  | ViewStyle                                                                                                                                                         | false    | Change style for the ios picker in compact mode     |
+| **touchableStyle**                    | ViewStyle                                                                                                                                                         | false    | Change style touchable view in the picker           |
 
 ### ItemComponent specific
 

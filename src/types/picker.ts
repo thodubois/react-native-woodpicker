@@ -21,6 +21,7 @@ export type PickerProps = {
   style?: ViewStyle;
   containerStyle?: ViewStyle;
   textInputStyle?: TextStyle;
+  touchableStyle?: ViewStyle;
   InputComponent?: React.ElementType<InputProps>;
   DoneBarComponent?: React.ElementType<DoneBarProps>;
   backdropAnimation?: BackdropAnimationType;
