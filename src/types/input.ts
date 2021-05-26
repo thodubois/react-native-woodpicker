@@ -6,6 +6,7 @@ export type InputProps = {
   style?: ViewStyle;
   text?: string;
   textInputStyle?: TextStyle;
+  touchableStyle?: ViewStyle;
   isNullable?: boolean;
   isCompactHiddenPickerNeeded?: boolean;
   renderHiddenCompactIOSPicker: () => JSX.Element | null;

@@ -30,6 +30,8 @@ const DatePicker = ({
   style,
   containerStyle,
   textInputStyle,
+  touchableStyle,
+  iosCompactHiddenStyle,
   androidCustomProps,
   iosCustomProps,
   ...pickerProps
@@ -102,6 +104,7 @@ const DatePicker = ({
       style,
       text,
       textInputStyle,
+      touchableStyle,
       isNullable,
       isCompactHiddenPickerNeeded:
         isIOS && Number(Platform.Version) >= 14 && iosDisplay === "compact",
@@ -154,6 +157,7 @@ const DatePicker = ({
         timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
         textColor={textColor}
         onChange={handleiOSDateChange}
+        iosCompactHiddenStyle={iosCompactHiddenStyle}
         {...datePickerProps}
         {...iosCustomProps}
       />

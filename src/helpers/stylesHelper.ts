@@ -34,7 +34,10 @@ export const styles = StyleSheet.create<Style>({
     flex: 1,
     backgroundColor: "#000000",
   },
-  placeholderStyle: { color: "black", fontSize: 16 },
+  placeholderStyle: {
+    color: "black",
+    fontSize: 16,
+  },
   doneBar: {
     height: 44,
     zIndex: 2,
@@ -65,6 +68,8 @@ export const styles = StyleSheet.create<Style>({
   placeHolderContainerStyle: {
     position: "relative",
     flexGrow: 9,
+    height: "100%",
+    justifyContent: "center",
   },
   iosPickerContainer: {
     height: ifIphoneX(255, 215),
