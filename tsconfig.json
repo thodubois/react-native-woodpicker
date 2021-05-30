@@ -12,5 +12,5 @@
     "esModuleInterop": true,
     "jsx": "react"
   },
-  "include": ["src"]
+  "include": ["src", "dist"]
 }

@@ -73,12 +73,12 @@ const ExampleApp = (): JSX.Element => {
   return (
     <View>
       <Picker
-      onChange={setPickedData}
-      items={data}
-      title="Data Picker"
-      placeholder="Select Data"
-      item={pickedData}
-      isNullable
+        item={pickedData}
+        items={data}
+        onItemChange={setPickedData}
+        title="Data Picker"
+        placeholder="Select Data"
+        isNullable
       //backdropAnimation={{ opactity: 0 }}
       //mode="dropdown"
       //isNullable
@@ -109,8 +109,8 @@ const ExampleApp = (): JSX.Element => {
   return (
     <View>
       <DatePicker
-        onChange={setPickedDate}
-        selectedDate={pickedDate}
+        value={pickedDate}
+        onDateChange={handleDateChange}
         title="Date Picker"
         text={handleText()}
         isNullable

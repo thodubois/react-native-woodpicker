@@ -28,8 +28,7 @@ const App = (): JSX.Element => {
       'Welcome to the Android Example App for react-native-woodpicker. Enjoy!',
   });
 
-  const handlePlaceholder = () =>
-    pickedDate?.toDateString?.() ?? 'No value Selected';
+  const handleText = () => pickedDate?.toDateString?.() ?? 'No value Selected';
 
   return (
     <View style={styles.container}>
@@ -37,24 +36,24 @@ const App = (): JSX.Element => {
       <Text style={styles.instructions}>To get started, edit App.js</Text>
       <Text style={styles.instructions}>{instructions}</Text>
       <Picker
-        style={styles.pickerStyle}
-        onItemChange={setPickedData}
+        item={pickedData}
         items={data}
+        onItemChange={setPickedData}
         title="Data Picker"
         placeholder="Select Data"
-        item={pickedData}
+        style={styles.pickerStyle}
         isNullable
         //androidPickerMode="dropdown"
       />
       <Button title="Set Value" onPress={resetPicker} />
       <DatePicker
-        style={styles.pickerStyle}
-        onDateChange={handleDateChange}
         value={pickedDate}
+        onDateChange={handleDateChange}
         title="Date Picker"
-        text={handlePlaceholder()}
+        text={handleText()}
         isNullable
         iosDisplay="inline"
+        style={styles.pickerStyle}
         //backdropAnimation={{ opactity: 0 }}
         //minDate={new Date(Date.now())}
         //maxDate={new Date(Date.now()+2000000000)}
