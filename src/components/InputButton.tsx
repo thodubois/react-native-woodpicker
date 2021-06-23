@@ -18,7 +18,7 @@ const InputButton = ({
   return (
     <View style={[styles.input, style]}>
       {isCompactHiddenPickerNeeded ? (
-        <View style={styles.placeHolderContainerStyle}>
+        <View style={[styles.placeHolderContainerStyle, touchableStyle]}>
           <Text
             style={[styles.placeholderStyle, textInputStyle]}
             numberOfLines={1}

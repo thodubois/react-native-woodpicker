@@ -11,7 +11,7 @@ export type PickerProps = {
   item?: PickerItem;
   items: Array<PickerItem>;
   disabled?: boolean;
-  placeholder: string;
+  placeholder?: string;
   title?: string;
   doneButtonLabel?: string;
   isNullable?: boolean;
