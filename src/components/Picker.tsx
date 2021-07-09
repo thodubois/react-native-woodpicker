@@ -37,7 +37,9 @@ const Picker = ({
   const [show, setShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(
     item
-      ? items.find((current: PickerItem) => current === item) || EMPTY_ITEM
+      ? items.find(
+          ({ label, value }) => label === item.label && value === item.value
+        ) || EMPTY_ITEM
       : isNullable
       ? EMPTY_ITEM
       : items[0]
